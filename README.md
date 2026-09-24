@@ -1,5 +1,7 @@
 # Soccer-Mobile-Pro-APK
 
+Offline UI validation: `Recover-SoccerUnity.ps1 -ValidateOfflineUI` runs whole-project validation and four PlayMode tests in the existing Unity project. [Test-OfflineUI.ps1](Test-OfflineUI.ps1) records compile/UI/gameplay status separately and captures both UI panels at 16:9 and ultrawide. It requires the offline UI milestone scene and refuses to stop an open Editor.
+
 Unity asset/type recovery automation: [guide and complete PowerShell script](UNITY-RECOVERY.md).
 
 - [Recover-SoccerUnity.ps1](Recover-SoccerUnity.ps1): preflight, recovery, repair and Unity validation.
