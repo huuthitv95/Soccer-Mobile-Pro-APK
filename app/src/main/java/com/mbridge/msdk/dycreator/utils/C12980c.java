@@ -1,0 +1,141 @@
+package com.mbridge.msdk.dycreator.utils;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.View;
+import com.mbridge.msdk.dycreator.binding.C12959b;
+import com.mbridge.msdk.foundation.tools.C13219q0;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+/* JADX INFO: renamed from: com.mbridge.msdk.dycreator.utils.c */
+/* JADX INFO: compiled from: CommUtil.java */
+/* JADX INFO: loaded from: classes5.dex */
+public class C12980c {
+    /* JADX INFO: renamed from: a */
+    public static double m36400a(double d, double d2, int i) {
+        if (i < 0) {
+            return 1.0d;
+        }
+        try {
+            return new BigDecimal(Double.toString(d)).divide(new BigDecimal(Double.toString(d2)), i, 4).doubleValue();
+        } catch (Exception e) {
+            C13219q0.m37816b("CommUtil", e.getMessage());
+            return 1.0d;
+        }
+    }
+
+    /* JADX INFO: renamed from: a */
+    public static int m36401a(Context context, float f) {
+        if (context == null) {
+            return 0;
+        }
+        try {
+            Resources resources = context.getResources();
+            if (resources == null) {
+                return 0;
+            }
+            return (int) ((f * resources.getDisplayMetrics().density) + 0.5f);
+        } catch (Exception e) {
+            C13219q0.m37816b("CommUtil", e.getMessage());
+            return 0;
+        }
+    }
+
+    /* JADX INFO: renamed from: a */
+    public static Map<String, String> m36402a(Context context, AttributeSet attributeSet) {
+        HashMap map = new HashMap();
+        if (context != null && attributeSet != null) {
+            int attributeCount = attributeSet.getAttributeCount();
+            for (int i = 0; i < attributeCount; i++) {
+                String attributeName = attributeSet.getAttributeName(i);
+                if (!TextUtils.isEmpty(attributeName)) {
+                    if (attributeName.equals("mbridge_data")) {
+                        try {
+                            map.put("mbridgeData", C12979b.f35377a.get(attributeSet.getAttributeValue(i).substring(8)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (attributeName.equals("mbridge_click")) {
+                        try {
+                            map.put("mbridgeAction", C12979b.f35377a.get(attributeSet.getAttributeValue(i).substring(8)));
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                        }
+                    }
+                    if (attributeName.equals("mbridge_strategy")) {
+                        try {
+                            map.put("mbridgeStrategy", C12979b.f35377a.get(attributeSet.getAttributeValue(i).substring(8)));
+                        } catch (Exception e3) {
+                            e3.printStackTrace();
+                        }
+                    }
+                    if (attributeName.equals("mbridge_effect")) {
+                        try {
+                            map.put("mbridgeEffect", C12979b.f35377a.get(attributeSet.getAttributeValue(i).substring(8)));
+                        } catch (Exception e4) {
+                            e4.printStackTrace();
+                        }
+                    }
+                    if (attributeName.equals("mbridge_report")) {
+                        try {
+                            map.put("mbridgeReport", attributeSet.getAttributeValue(i));
+                        } catch (Exception e5) {
+                            e5.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
+    /* JADX INFO: renamed from: a */
+    public static void m36404a(Map<String, String> map, View view) {
+        if (map == null || view == null) {
+            return;
+        }
+        if (map.containsKey("mbridgeData")) {
+            C12959b.m36295a().m36317b(view);
+        }
+        if (map.containsKey("mbridgeAction")) {
+            C12959b.m36295a().m36314a(view);
+        }
+        if (map.containsKey("mbridgeEffect")) {
+            C12959b.m36295a().m36318c(view);
+        }
+        if (map.containsKey("mbridgeReport")) {
+            C12959b.m36295a().m36319d(view);
+        }
+    }
+
+    /* JADX INFO: renamed from: a */
+    public static Map<String, Boolean> m36403a(String str) {
+        HashMap map = new HashMap();
+        if (!TextUtils.isEmpty(str)) {
+            String[] strArrSplit = str.split("\\|");
+            if (strArrSplit != null && strArrSplit.length > 0) {
+                for (String str2 : strArrSplit) {
+                    if (str2.equals("mbridgeAttached")) {
+                        map.put("mbridgeAttached", Boolean.TRUE);
+                    }
+                    if (str2.equals("mbridgeDetached")) {
+                        map.put("mbridgeDetached", Boolean.TRUE);
+                    }
+                }
+            } else {
+                if (str.equals("mbridgeAttached")) {
+                    map.put("mbridgeAttached", Boolean.TRUE);
+                }
+                if (str.equals("mbridgeDetached")) {
+                    map.put("mbridgeDetached", Boolean.TRUE);
+                }
+            }
+        }
+        return map;
+    }
+}

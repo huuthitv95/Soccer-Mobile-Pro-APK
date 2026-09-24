@@ -1,0 +1,69 @@
+package com.google.android.gms.internal.ads;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-ads@@25.1.0 */
+/* JADX INFO: loaded from: classes5.dex */
+public final class zzhwh extends zzhxc {
+    private final zzhwj zza;
+    private final zzian zzb;
+    private final zzian zzc;
+    private final zzian zzd;
+    private final zzian zze;
+    private final zzian zzf;
+    private final zzian zzg;
+
+    /* synthetic */ zzhwh(zzhwj zzhwjVar, zzian zzianVar, zzian zzianVar2, zzian zzianVar3, zzian zzianVar4, zzian zzianVar5, zzian zzianVar6, byte[] bArr) {
+        this.zza = zzhwjVar;
+        this.zzc = zzianVar;
+        this.zzd = zzianVar2;
+        this.zzb = zzianVar3;
+        this.zze = zzianVar4;
+        this.zzf = zzianVar5;
+        this.zzg = zzianVar6;
+    }
+
+    public static zzhwg zzc() {
+        return new zzhwg(null);
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzhxc, com.google.android.gms.internal.ads.zzhdc
+    public final /* synthetic */ zzhdt zza() {
+        return this.zza.zzf();
+    }
+
+    public final zzhwf zzd() {
+        return this.zza.zzf();
+    }
+
+    public final zzhwj zze() {
+        return this.zza;
+    }
+
+    public final zzian zzf() {
+        return this.zzc;
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzhxc
+    public final /* synthetic */ zzhxd zzg() {
+        return this.zza;
+    }
+
+    public final zzian zzh() {
+        return this.zzd;
+    }
+
+    public final zzian zzi() {
+        return this.zzb;
+    }
+
+    public final zzian zzj() {
+        return this.zze;
+    }
+
+    public final zzian zzk() {
+        return this.zzf;
+    }
+
+    public final zzian zzl() {
+        return this.zzg;
+    }
+}

@@ -1,0 +1,64 @@
+package com.facebook.ads.redexgen.core;
+
+/* JADX INFO: renamed from: com.facebook.ads.redexgen.X.XV */
+/* JADX INFO: loaded from: assets/audience_network/classes2.dex */
+public abstract class AbstractC6332XV {
+    public static final int A00 = (int) (AbstractC6334XX.A02 * 0.0f);
+    public static final int A01 = (int) (AbstractC6334XX.A02 * 1.0f);
+    public static final int A0A = (int) (AbstractC6334XX.A02 * 2.0f);
+    public static final int A0I = (int) (AbstractC6334XX.A02 * 4.0f);
+    public static final int A0O = (int) (AbstractC6334XX.A02 * 5.0f);
+    public static final int A0S = (int) (AbstractC6334XX.A02 * 6.0f);
+    public static final int A0U = (int) (AbstractC6334XX.A02 * 8.0f);
+    public static final int A02 = (int) (AbstractC6334XX.A02 * 10.0f);
+    public static final int A05 = (int) (AbstractC6334XX.A02 * 12.0f);
+    public static final int A06 = (int) (AbstractC6334XX.A02 * 13.0f);
+    public static final int A07 = (int) (AbstractC6334XX.A02 * 14.0f);
+    public static final int A09 = (int) (AbstractC6334XX.A02 * 16.0f);
+    public static final int A0B = (int) (AbstractC6334XX.A02 * 20.0f);
+    public static final int A0C = (int) (AbstractC6334XX.A02 * 24.0f);
+    public static final int A0D = (int) (AbstractC6334XX.A02 * 25.0f);
+    public static final int A0E = (int) (AbstractC6334XX.A02 * 26.0f);
+    public static final int A0F = (int) (AbstractC6334XX.A02 * 28.0f);
+    public static final int A0G = (int) (AbstractC6334XX.A02 * 32.0f);
+    public static final int A0H = (int) (AbstractC6334XX.A02 * 36.0f);
+    public static final int A0J = (int) (AbstractC6334XX.A02 * 40.0f);
+    public static final int A0L = (int) (42.0f * AbstractC6334XX.A02);
+    public static final int A0M = (int) (AbstractC6334XX.A02 * 44.0f);
+    public static final int A0N = (int) (AbstractC6334XX.A02 * 48.0f);
+    public static final int A0P = (int) (50.0f * AbstractC6334XX.A02);
+    public static final int A0Q = (int) (52.0f * AbstractC6334XX.A02);
+    public static final int A0R = (int) (56.0f * AbstractC6334XX.A02);
+    public static final int A0T = (int) (AbstractC6334XX.A02 * 64.0f);
+    public static final int A0V = (int) (80.0f * AbstractC6334XX.A02);
+    public static final int A0W = (int) (90.0f * AbstractC6334XX.A02);
+    public static final int A0X = (int) (96.0f * AbstractC6334XX.A02);
+    public static final int A03 = (int) (100.0f * AbstractC6334XX.A02);
+    public static final int A04 = (int) (112.0f * AbstractC6334XX.A02);
+    public static final int A08 = (int) (150.0f * AbstractC6334XX.A02);
+    public static final int A0K = (int) (400.0f * AbstractC6334XX.A02);
+    public static final int A0d = (int) (AbstractC6334XX.A02 * 2.0f);
+    public static final int A0i = (int) (AbstractC6334XX.A02 * 3.0f);
+    public static final int A0o = (int) (AbstractC6334XX.A02 * 4.0f);
+    public static final int A0s = (int) (AbstractC6334XX.A02 * 5.0f);
+    public static final int A0t = (int) (AbstractC6334XX.A02 * 6.0f);
+    public static final int A0v = (int) (AbstractC6334XX.A02 * 8.0f);
+    public static final int A0Y = (int) (AbstractC6334XX.A02 * 10.0f);
+    public static final int A0Z = (int) (AbstractC6334XX.A02 * 12.0f);
+    public static final int A0a = (int) (AbstractC6334XX.A02 * 14.0f);
+    public static final int A0b = (int) (AbstractC6334XX.A02 * 16.0f);
+    public static final int A0c = (int) (AbstractC6334XX.A02 * 18.0f);
+    public static final int A0e = (int) (AbstractC6334XX.A02 * 20.0f);
+    public static final int A0f = (int) (AbstractC6334XX.A02 * 24.0f);
+    public static final int A0g = (int) (AbstractC6334XX.A02 * 26.0f);
+    public static final int A0h = (int) (AbstractC6334XX.A02 * 28.0f);
+    public static final int A0j = (int) (AbstractC6334XX.A02 * 30.0f);
+    public static final int A0k = (int) (AbstractC6334XX.A02 * 32.0f);
+    public static final int A0l = (int) (AbstractC6334XX.A02 * 34.0f);
+    public static final int A0m = (int) (AbstractC6334XX.A02 * 36.0f);
+    public static final int A0n = (int) (AbstractC6334XX.A02 * 38.0f);
+    public static final int A0p = (int) (AbstractC6334XX.A02 * 40.0f);
+    public static final int A0q = (int) (AbstractC6334XX.A02 * 44.0f);
+    public static final int A0r = (int) (AbstractC6334XX.A02 * 48.0f);
+    public static final int A0u = (int) (AbstractC6334XX.A02 * 64.0f);
+}

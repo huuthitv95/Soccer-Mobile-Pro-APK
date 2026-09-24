@@ -1,0 +1,13 @@
+package com.unity3d.services.store.gpbl.listeners;
+
+import com.unity3d.services.store.gpbl.bridges.BillingResultBridge;
+import com.unity3d.services.store.gpbl.bridges.billingclient.p297v8.QueryProductDetailsResultsBridge;
+import com.unity3d.services.store.gpbl.proxies.ProductDetailsResponseListenerProxy;
+import kotlin.Metadata;
+
+/* JADX INFO: compiled from: ProductDetailsResponseListener.kt */
+/* JADX INFO: loaded from: classes7.dex */
+@Metadata(m43474d1 = {"\u0000\u001c\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\bf\u0018\u00002\u00020\u0001J\u0018\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u00052\u0006\u0010\u0006\u001a\u00020\u0007H&¨\u0006\b"}, m43475d2 = {"Lcom/unity3d/services/store/gpbl/listeners/ProductDetailsResponseListener;", "", ProductDetailsResponseListenerProxy.onProductDetailsResponseMethodName, "", "billingResult", "Lcom/unity3d/services/store/gpbl/bridges/BillingResultBridge;", "queryProductDetailsResults", "Lcom/unity3d/services/store/gpbl/bridges/billingclient/v8/QueryProductDetailsResultsBridge;", "unity-ads_defaultRelease"}, m43476k = 1, m43477mv = {1, 8, 0}, m43479xi = 48)
+public interface ProductDetailsResponseListener {
+    void onProductDetailsResponse(BillingResultBridge billingResult, QueryProductDetailsResultsBridge queryProductDetailsResults);
+}

@@ -1,0 +1,144 @@
+package com.bytedance.sdk.openadsdk.common;
+
+import android.R;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import com.bytedance.sdk.component.utils.C2729uq;
+import com.bytedance.sdk.openadsdk.core.p217di.C3190di;
+import com.bytedance.sdk.openadsdk.core.p217di.C3191fi;
+import com.bytedance.sdk.openadsdk.core.p217di.C3193ka;
+import com.bytedance.sdk.openadsdk.core.p217di.C3195mj;
+import com.bytedance.sdk.openadsdk.utils.C3583qd;
+import com.bytedance.sdk.openadsdk.utils.C3586sf;
+import com.vungle.ads.internal.protos.Sdk;
+
+/* JADX INFO: loaded from: classes3.dex */
+public class jbs extends RelativeLayout {
+    public jbs(Context context) {
+        super(context);
+        m11355ri();
+    }
+
+    /* JADX INFO: renamed from: ri */
+    private void m11355ri() {
+        setId(com.bytedance.sdk.openadsdk.utils.slm.yjm);
+        setBackgroundColor(-1);
+        Context context = getContext();
+        setLayoutParams(new ViewGroup.LayoutParams(-1, C3583qd.m16589lr(context, 44.0f)));
+        int iM16589lr = C3583qd.m16589lr(context, 10.0f);
+        int iM16589lr2 = C3583qd.m16589lr(context, 24.0f);
+        C3193ka c3193ka = new C3193ka(context);
+        c3193ka.setId(com.bytedance.sdk.openadsdk.utils.slm.saa);
+        c3193ka.setClickable(true);
+        c3193ka.setFocusable(true);
+        c3193ka.setImageResource(C2729uq.m10305ka(context, "tt_titlebar_close_new"));
+        c3193ka.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        c3193ka.setAdjustViewBounds(true);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(iM16589lr2, iM16589lr2);
+        layoutParams.addRule(9);
+        layoutParams.addRule(15);
+        layoutParams.setMargins(iM16589lr, iM16589lr, iM16589lr, iM16589lr);
+        addView(c3193ka, layoutParams);
+        C3193ka c3193ka2 = new C3193ka(context);
+        c3193ka2.setId(com.bytedance.sdk.openadsdk.utils.slm.f13306ud);
+        c3193ka2.setClickable(true);
+        c3193ka2.setFocusable(true);
+        c3193ka2.setImageResource(C2729uq.m10305ka(context, "tt_titlebar_backward"));
+        c3193ka2.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(iM16589lr2, iM16589lr2);
+        layoutParams2.addRule(1, com.bytedance.sdk.openadsdk.utils.slm.saa);
+        layoutParams2.addRule(15);
+        int i = iM16589lr * 2;
+        layoutParams2.setMargins(i, iM16589lr, iM16589lr, iM16589lr);
+        addView(c3193ka2, layoutParams2);
+        C3191fi c3191fi = new C3191fi(context);
+        c3191fi.setId(com.bytedance.sdk.openadsdk.utils.slm.f13291pc);
+        c3191fi.setOrientation(1);
+        c3191fi.setGravity(17);
+        C3195mj c3195mj = new C3195mj(context);
+        c3195mj.setId(com.bytedance.sdk.openadsdk.utils.slm.f13297ri);
+        c3195mj.setSingleLine(true);
+        c3195mj.setEllipsize(TextUtils.TruncateAt.END);
+        c3195mj.setTextColor(Color.parseColor("#222222"));
+        c3195mj.setTextSize(2, 14.0f);
+        c3195mj.setGravity(17);
+        C3195mj c3195mj2 = new C3195mj(context);
+        c3195mj2.setId(com.bytedance.sdk.openadsdk.utils.slm.f13284lr);
+        c3195mj2.setSingleLine(true);
+        c3195mj2.setEllipsize(TextUtils.TruncateAt.END);
+        c3195mj2.setTextColor(Color.argb(Sdk.SDKError.Reason.INVALID_ADS_ENDPOINT_VALUE, 0, 0, 0));
+        c3195mj2.setTextSize(2, 12.0f);
+        c3195mj2.setGravity(16);
+        c3195mj2.setPadding(0, 0, 0, 0);
+        c3195mj2.setIncludeFontPadding(false);
+        C3191fi c3191fi2 = new C3191fi(context);
+        c3191fi2.setOrientation(0);
+        c3191fi2.setGravity(16);
+        C3193ka c3193ka3 = new C3193ka(context);
+        int iM10305ka = C2729uq.m10305ka(context, "tt_titlebar_lock");
+        if (iM10305ka != 0) {
+            c3193ka3.setImageResource(iM10305ka);
+            int iM16589lr3 = C3583qd.m16589lr(context, 12.0f);
+            LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(iM16589lr3, iM16589lr3);
+            layoutParams3.rightMargin = C3583qd.m16589lr(context, 4.0f);
+            c3193ka3.setLayoutParams(layoutParams3);
+            c3193ka3.setColorFilter(Color.argb(Sdk.SDKError.Reason.INVALID_ADS_ENDPOINT_VALUE, 0, 0, 0), PorterDuff.Mode.SRC_IN);
+            c3191fi2.addView(c3193ka3);
+        }
+        c3191fi.addView(c3195mj, new LinearLayout.LayoutParams(-2, -2));
+        ViewGroup.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(-2, -2);
+        c3191fi2.addView(c3195mj2, layoutParams4);
+        c3191fi.addView(c3191fi2, layoutParams4);
+        RelativeLayout.LayoutParams layoutParams5 = new RelativeLayout.LayoutParams(-2, -2);
+        layoutParams5.addRule(1, com.bytedance.sdk.openadsdk.utils.slm.f13306ud);
+        layoutParams5.addRule(0, com.bytedance.sdk.openadsdk.utils.slm.hpn);
+        layoutParams5.addRule(15);
+        layoutParams5.setMargins(iM16589lr, 0, iM16589lr, 0);
+        addView(c3191fi, layoutParams5);
+        C3193ka c3193ka4 = new C3193ka(context);
+        c3193ka4.setId(com.bytedance.sdk.openadsdk.utils.slm.hpn);
+        c3193ka4.setClickable(true);
+        c3193ka4.setFocusable(true);
+        c3193ka4.setImageResource(C2729uq.m10305ka(context, "tt_titlebar_forward"));
+        c3193ka4.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        RelativeLayout.LayoutParams layoutParams6 = new RelativeLayout.LayoutParams(iM16589lr2, iM16589lr2);
+        layoutParams6.addRule(0, 520093740);
+        layoutParams6.addRule(15);
+        layoutParams6.setMargins(iM16589lr, iM16589lr, i, iM16589lr);
+        addView(c3193ka4, layoutParams6);
+        C3193ka c3193ka5 = new C3193ka(context);
+        c3193ka5.setId(520093740);
+        c3193ka5.setClickable(true);
+        c3193ka5.setFocusable(true);
+        c3193ka5.setImageResource(C2729uq.m10305ka(context, "tt_titlebar_more"));
+        c3193ka5.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        RelativeLayout.LayoutParams layoutParams7 = new RelativeLayout.LayoutParams(iM16589lr2, iM16589lr2);
+        layoutParams7.addRule(11);
+        layoutParams7.addRule(15);
+        layoutParams7.setMargins(iM16589lr, iM16589lr, iM16589lr, iM16589lr);
+        addView(c3193ka5, layoutParams7);
+        C3190di c3190di = new C3190di(context, null, R.style.Widget.ProgressBar.Horizontal);
+        c3190di.setId(com.bytedance.sdk.openadsdk.utils.slm.f13320zk);
+        c3190di.setProgress(1);
+        c3190di.setProgressDrawable(C3586sf.m16645ri(context, "tt_privacy_progress_style"));
+        RelativeLayout.LayoutParams layoutParams8 = new RelativeLayout.LayoutParams(-1, C3583qd.m16589lr(context, 2.0f));
+        layoutParams8.addRule(12);
+        addView(c3190di, layoutParams8);
+        View view = new View(context);
+        view.setBackgroundColor(Color.parseColor("#1F161823"));
+        RelativeLayout.LayoutParams layoutParams9 = new RelativeLayout.LayoutParams(-1, C3583qd.m16589lr(context, 0.5f));
+        layoutParams9.addRule(12);
+        addView(view, layoutParams9);
+        c3193ka2.setClickable(false);
+        c3193ka4.setClickable(false);
+        c3193ka2.setColorFilter(Color.parseColor("#A8FFFFFF"), PorterDuff.Mode.ADD);
+        c3193ka4.setColorFilter(Color.parseColor("#A8FFFFFF"), PorterDuff.Mode.ADD);
+    }
+}

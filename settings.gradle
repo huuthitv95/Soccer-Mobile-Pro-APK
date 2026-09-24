@@ -1,0 +1,3 @@
+rootProject.name = 'Football 2026'
+
+include 'app'

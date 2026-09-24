@@ -1,0 +1,67 @@
+package com.google.android.gms.internal.ads;
+
+import com.ironsource.C11744X3;
+import java.util.Iterator;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-ads@@25.1.0 */
+/* JADX INFO: loaded from: classes5.dex */
+final class zzgyk extends zzgwj {
+    final transient Object zza;
+
+    zzgyk(Object obj) {
+        obj.getClass();
+        this.zza = obj;
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgvv, java.util.AbstractCollection, java.util.Collection
+    public final boolean contains(Object obj) {
+        return this.zza.equals(obj);
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgwj, java.util.Collection, java.util.Set
+    public final int hashCode() {
+        return this.zza.hashCode();
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgwj, com.google.android.gms.internal.ads.zzgvv, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
+    public final /* synthetic */ Iterator iterator() {
+        return new zzgwr(this.zza);
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
+    public final int size() {
+        return 1;
+    }
+
+    @Override // java.util.AbstractCollection
+    public final String toString() {
+        String string = this.zza.toString();
+        StringBuilder sb = new StringBuilder(String.valueOf(string).length() + 2);
+        sb.append(C11744X3.j.f26438d);
+        sb.append(string);
+        sb.append(C11744X3.j.f26440e);
+        return sb.toString();
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgwj, com.google.android.gms.internal.ads.zzgvv
+    /* JADX INFO: renamed from: zza */
+    public final zzgyn iterator() {
+        return new zzgwr(this.zza);
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgwj, com.google.android.gms.internal.ads.zzgvv
+    public final zzgvz zze() {
+        return zzgvz.zzj(this.zza);
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgvv
+    final boolean zzf() {
+        return false;
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzgvv
+    final int zzg(Object[] objArr, int i) {
+        objArr[i] = this.zza;
+        return i + 1;
+    }
+}

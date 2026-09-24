@@ -1,0 +1,18 @@
+package com.fyber.inneractive.sdk.player.exoplayer2;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+/* JADX INFO: renamed from: com.fyber.inneractive.sdk.player.exoplayer2.n */
+/* JADX INFO: loaded from: classes4.dex */
+public final class C8707n implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final Object createFromParcel(Parcel parcel) {
+        return new C8708o(parcel);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final Object[] newArray(int i) {
+        return new C8708o[i];
+    }
+}

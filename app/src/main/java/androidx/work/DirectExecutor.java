@@ -1,0 +1,24 @@
+package androidx.work;
+
+import com.ironsource.sdk.controller.InterfaceC12497f;
+import java.util.concurrent.Executor;
+import kotlin.Metadata;
+import kotlin.jvm.internal.Intrinsics;
+
+/* JADX INFO: compiled from: DirectExecutor.kt */
+/* JADX INFO: loaded from: classes3.dex */
+@Metadata(m43474d1 = {"\u0000$\n\u0002\u0018\u0002\n\u0002\u0010\u0010\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\b\u0087\u0001\u0018\u00002\b\u0012\u0004\u0012\u00020\u00000\u00012\u00020\u0002B\u0007\b\u0002¢\u0006\u0002\u0010\u0003J\u0010\u0010\u0004\u001a\u00020\u00052\u0006\u0010\u0006\u001a\u00020\u0007H\u0016J\b\u0010\b\u001a\u00020\tH\u0016j\u0002\b\n¨\u0006\u000b"}, m43475d2 = {"Landroidx/work/DirectExecutor;", "", "Ljava/util/concurrent/Executor;", "(Ljava/lang/String;I)V", "execute", "", InterfaceC12497f.b.f32093g, "Ljava/lang/Runnable;", "toString", "", "INSTANCE", "work-runtime-ktx_release"}, m43476k = 1, m43477mv = {1, 5, 1}, m43479xi = 48)
+public enum DirectExecutor implements Executor {
+    INSTANCE;
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable command) {
+        Intrinsics.checkNotNullParameter(command, "command");
+        command.run();
+    }
+
+    @Override // java.lang.Enum
+    public String toString() {
+        return "DirectExecutor";
+    }
+}

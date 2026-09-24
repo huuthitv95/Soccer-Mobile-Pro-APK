@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "725369338500",
+    "project_id": "soccer-league-7aa37",
+    "storage_bucket": "soccer-league-7aa37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725369338500:ios:4b5de01360720b420e20d1",
+        "android_client_info": {
+          "package_name": "com.football.soccer.league"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3bXVYbJmfrHBZyO0vuAU-zO9CJ12G_Hc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 0
+        },
+        "appinvite_service": {
+          "status": 1
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725369338500-q0udmamnqut7ton507t8hgp5r5c7lcpl.apps.googleusercontent.com"
+        }
+      ]
+    }
+  ],
+  "configuration_version": "1"
+}
