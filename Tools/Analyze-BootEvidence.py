@@ -4,6 +4,7 @@ ELF64 program headers map RVAs to file offsets; R_AARCH64_RELATIVE relocations
 resolve GOT slots to Il2CppDumper metadata/string slots. No native code executes.
 """
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import re
@@ -20,6 +21,11 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output', type=Path, default=OUT)
+    parser.add_argument('--method-pattern', default=r'^(StartGame|MainViewLoader\$\$|UI_Load\$\$|SceneHelper\$\$LoadScenes)')
+    args = parser.parse_args()
+    output = args.output
     binary = RECOVERY / 'Extracted/lib/arm64-v8a/libil2cpp.so'
     b = binary.read_bytes()
     metadata = RECOVERY / 'Extracted/assets/bin/Data/Managed/Metadata/global-metadata.dat'
@@ -87,25 +93,25 @@ def main():
                 line += '  // ' + ' | '.join(names[:3]) + (' [shared generics]' if len(names) > 3 else '')
             result.append(line.rstrip())
         return '\n'.join(result)
-    OUT.mkdir(parents=True, exist_ok=True)
+    output.mkdir(parents=True, exist_ok=True)
     selected = []
     for m in script['ScriptMethod']:
-        if m['Name'].startswith(('StartGame', 'MainViewLoader$$', 'UI_Load$$', 'SceneHelper$$LoadScenes')):
+        if re.search(args.method_pattern, m['Name']):
             end = next(a for a in starts if a > m['Address'])
             selected.append(dict(m, endRva=hex(end)))
             text = annotate(disasm(m['Address'], end))
-            (OUT / (hex(m['Address']) + '.asm.txt')).write_text(text + '\n', encoding='utf-8')
+            (output / (hex(m['Address']) + '.asm.txt')).write_text(text + '\n', encoding='utf-8')
     # Import/export summary is evidence about the binary, not a claim that boot
     # invokes each imported API. Dynamic calls still require method-level analysis.
     dynamic = subprocess.check_output([str(OBJDUMP), '-T', str(binary)], text=True, encoding='utf-8', timeout=60)
-    (OUT / 'dynamic-symbols.txt').write_text(dynamic, encoding='utf-8')
+    (output / 'dynamic-symbols.txt').write_text(dynamic, encoding='utf-8')
     evidence = {'inputHashes': hashes, 'pairMatchesApkAndOriginalDumperRun': True,
                 'metadataVersion': 27, 'architecture': 'ELF64 AArch64 little-endian',
                 'methods': selected, 'progressConstants': {hex(a): struct.unpack_from('<f', b, off(a))[0]
                     for a in (0x2785a10, 0x27c50e8)},
                 'scope': 'Static binary and metadata evidence; external services are not executed.'}
-    (OUT / 'native-evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
-    print(json.dumps({'methods': len(selected), 'hashes': hashes, 'output': str(OUT)}))
+    (output / 'native-evidence.json').write_text(json.dumps(evidence, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps({'methods': len(selected), 'hashes': hashes, 'output': str(output)}))
 
 if __name__ == '__main__':
     main()
