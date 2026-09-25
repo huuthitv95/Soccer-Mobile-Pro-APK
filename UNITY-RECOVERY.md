@@ -4,6 +4,8 @@ The self-contained script is [Recover-SoccerUnity.ps1](Recover-SoccerUnity.ps1).
 
 ## Execute
 
+Boot recovery: use `Recover-SoccerUnity.ps1 -ValidateBootFlow` for whole-project validation, four offline UI tests and twelve boot tests. `Test-BootFlow.ps1` records per-test event traces and separate compiler/UI/boot results. Network and save readiness are explicit synthetic profile inputs. The scene adapter stops at a recovery copy of Start; Lobby, real cloud save and gameplay remain unrecovered. This mode is exclusive with every other mode and does not extract or author scenes.
+
 After the offline UI milestone has been implemented, use `Recover-SoccerUnity.ps1 -ValidateOfflineUI`. This separate mode invokes `Test-OfflineUI.ps1`, validates the existing project first, then runs all four offline UI PlayMode tests. It preserves original Build Settings and reports `compilationSucceeded`, `offlineUiSucceeded`, and `gameplayRecovered` separately in `Soccer-Unity-Recovery/Runs/OfflineValidation-*`. New asset failures, skipped/missing tests or absent screenshots fail the run. Gameplay recovery is not claimed. Close the project Editor first.
 
 Use Windows PowerShell 5.1. The installed .NET SDK 9.0.316 builds the embedded Roslyn helper; the script supports installed SDKs 8 or newer and does not install tools. Unity needs a valid local license, and package resolution may need network access.
@@ -144,6 +146,7 @@ param(
     [switch]$RepairExisting,
     [switch]$ValidateOnly,
     [switch]$ValidateOfflineUI,
+    [switch]$ValidateBootFlow,
     [ValidateRange(60, 86400)][int]$StageTimeoutSeconds = 7200,
     # Explicitly reviewed full type names ONLY. Interop-marked types are still rejected.
     [string[]]$ConfirmedNonInteropLayoutTypes = @()
@@ -1025,8 +1028,9 @@ function Invoke-ExistingRecovery {
     Write-Host "Result: $($report.status). Reports: $reports"
 }
 
-if (@($SelfTest,$PreflightOnly,$RepairExisting,$ValidateOnly,$ValidateOfflineUI | Where-Object {$_}).Count -gt 1) {throw 'Choose one mode: SelfTest, PreflightOnly, RepairExisting, ValidateOnly or ValidateOfflineUI.'}
+if (@($SelfTest,$PreflightOnly,$RepairExisting,$ValidateOnly,$ValidateOfflineUI,$ValidateBootFlow | Where-Object {$_}).Count -gt 1) {throw 'Choose one mode: SelfTest, PreflightOnly, RepairExisting, ValidateOnly, ValidateOfflineUI or ValidateBootFlow.'}
 if ($ValidateOfflineUI) { & (Join-Path $PSScriptRoot 'Test-OfflineUI.ps1') -StageTimeoutSeconds $StageTimeoutSeconds; return }
+if ($ValidateBootFlow) { & (Join-Path $PSScriptRoot 'Test-BootFlow.ps1') -StageTimeoutSeconds $StageTimeoutSeconds; return }
 try {
     if ($SelfTest) { Invoke-SelfTest; return }
     if ($RepairExisting -or $ValidateOnly) {Invoke-ExistingRecovery; return}

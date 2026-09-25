@@ -14,6 +14,7 @@ param(
     [switch]$RepairExisting,
     [switch]$ValidateOnly,
     [switch]$ValidateOfflineUI,
+    [switch]$ValidateBootFlow,
     [ValidateRange(60, 86400)][int]$StageTimeoutSeconds = 7200,
     # Explicitly reviewed full type names ONLY. Interop-marked types are still rejected.
     [string[]]$ConfirmedNonInteropLayoutTypes = @()
@@ -895,8 +896,9 @@ function Invoke-ExistingRecovery {
     Write-Host "Result: $($report.status). Reports: $reports"
 }
 
-if (@($SelfTest,$PreflightOnly,$RepairExisting,$ValidateOnly,$ValidateOfflineUI | Where-Object {$_}).Count -gt 1) {throw 'Choose one mode: SelfTest, PreflightOnly, RepairExisting, ValidateOnly or ValidateOfflineUI.'}
+if (@($SelfTest,$PreflightOnly,$RepairExisting,$ValidateOnly,$ValidateOfflineUI,$ValidateBootFlow | Where-Object {$_}).Count -gt 1) {throw 'Choose one mode: SelfTest, PreflightOnly, RepairExisting, ValidateOnly, ValidateOfflineUI or ValidateBootFlow.'}
 if ($ValidateOfflineUI) { & (Join-Path $PSScriptRoot 'Test-OfflineUI.ps1') -StageTimeoutSeconds $StageTimeoutSeconds; return }
+if ($ValidateBootFlow) { & (Join-Path $PSScriptRoot 'Test-BootFlow.ps1') -StageTimeoutSeconds $StageTimeoutSeconds; return }
 try {
     if ($SelfTest) { Invoke-SelfTest; return }
     if ($RepairExisting -or $ValidateOnly) {Invoke-ExistingRecovery; return}
