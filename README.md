@@ -2,7 +2,7 @@
 
 Offline UI validation: `Recover-SoccerUnity.ps1 -ValidateOfflineUI` runs whole-project validation and four PlayMode tests in the existing Unity project. [Test-OfflineUI.ps1](Test-OfflineUI.ps1) records compile/UI/gameplay status separately and captures both UI panels at 16:9 and ultrawide. It requires the offline UI milestone scene and refuses to stop an open Editor.
 
-Boot-flow validation: `Recover-SoccerUnity.ps1 -ValidateBootFlow` validates the existing project, four offline UI tests, and twelve `Launch → Start` recovery tests. These cover the native network/save-path gates, percent scaling, error preservation, repeated callbacks, cancellation, and three scene restarts. Reports include per-test event traces. It never extracts an APK, repairs source, overwrites scenes, changes Build Settings, or stops an open Editor.
+Boot-flow validation: `Recover-SoccerUnity.ps1 -ValidateBootFlow` validates the existing project, four offline UI tests, and twelve Launch ? Start recovery tests. Lobby validation: `Recover-SoccerUnity.ps1 -ValidateLobbyFlow` runs compile, four UI, twelve boot and thirteen Start ? Lobby offline tests, with per-test event traces. Both modes inspect the existing project only; they do not extract an APK, overwrite original scenes, change Build Settings, or stop an open Editor. Real services and gameplay remain unrecovered.
 
 Unity asset/type recovery automation: [guide and complete PowerShell script](UNITY-RECOVERY.md).
 
