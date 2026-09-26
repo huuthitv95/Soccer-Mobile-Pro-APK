@@ -1,5 +1,9 @@
 # Soccer Mobile Pro: Unity recovery automation
 
+## Current offline milestone
+
+Run `Test-MilestonePipeline.ps1` for synthetic pipeline checks, then `Recover-SoccerUnity.ps1 -ValidateLobbyFlow` for compile/assets and 36 UI/Boot/Lobby/GlobalConfig PlayMode tests. The current baseline is zero missing scripts through a labeled GlobalConfig replacement. The validator refuses an open project Editor, verifies the exact Boot report's validation ID, captures images/traces and records both working trees' commit/status/file hashes before and after validation. See the Unity repository's `Documentation/GlobalConfig/README.md`. The one-missing-script recovery results below are historical; they do not describe the current acceptance baseline. The original GlobalConfig layout, real services and gameplay remain unrecovered.
+
 The self-contained script is [Recover-SoccerUnity.ps1](Recover-SoccerUnity.ps1). Its complete source is reproduced in the PowerShell block below. It targets a **compiling asset/type recovery project**, not restored gameplay. Dummy assemblies contain type information and stub methods; they are not concrete implementations of the original game.
 
 ## Execute

@@ -10,7 +10,7 @@ $editor='C:\Program Files\Unity\Hub\Editor\2020.3.49f1\Editor\Unity.exe'
 $recovery='C:\Users\ZGAMESVN\Downloads\Soccer-Unity-Recovery'
 $run=Join-Path $recovery ('Runs\OfflineValidation-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'-'+[guid]::NewGuid().ToString('N').Substring(0,8))
 $utf8=New-Object Text.UTF8Encoding($false)
-$report=[ordered]@{status='Running';project=$project;targetVersion='2020.3.49f1';compilationSucceeded=$false;offlineUiSucceeded=$false;gameplayRecovered=$false;baselineMissingScripts=1;run=$run}
+$report=[ordered]@{status='Running';project=$project;targetVersion='2020.3.49f1';compilationSucceeded=$false;offlineUiSucceeded=$false;gameplayRecovered=$false;baselineMissingScripts=0;run=$run}
 function Write-Report { [IO.File]::WriteAllText((Join-Path $run 'offline-validation.json'),(ConvertTo-Json $report -Depth 8),$utf8) }
 function Quote-Arg([string]$v){'"'+[regex]::Replace([regex]::Replace($v,'(\\*)"','$1$1\"'),'(\\+)$','$1$1')+'"'}
 function Run([string]$exe,[string[]]$arguments,[string]$name){
@@ -39,8 +39,7 @@ try {
     if(!$compile.validation.compiled -or $compile.targetVersion -ne $report.targetVersion -or $compile.project -ne $project){throw 'Compilation/version validation failed.'}
     $report.compilationSucceeded=$true
     $issues=@($compile.validation.items | Where-Object {$_.missingScripts -gt 0 -or $_.error})
-    $unexpected=@($issues | Where-Object {$_.path -ne 'Assets/gamedata/ui/windows/Win_GlobalConfig.prefab' -or $_.missingScripts -ne 1 -or $_.error})
-    if($unexpected.Count -or @($compile.validation.editorErrors).Count){throw 'Asset validation regressed beyond the documented missing-script baseline.'}
+    if($issues.Count -or @($compile.validation.editorErrors).Count){throw 'Asset validation found missing scripts or editor errors; expected zero after the Win_GlobalConfig replacement.'}
     $report.assetIssues=$issues
     Write-Report
     $previous=[Environment]::GetEnvironmentVariable('SOCCER_OFFLINE_REPORTS','Process')
@@ -56,9 +55,9 @@ try {
     foreach($screen in @('welcome-1920x1080.png','team-1920x1080.png','welcome-2560x1080.png','team-2560x1080.png')){if(!(Test-Path (Join-Path $run $screen))){throw "Screenshot missing: $screen"}}
     $report.offlineUiSucceeded=$true
     $report.passedTests=$cases.Count
-    $report.status='PassedWithKnownAssetIssue'
+    $report.status='Passed'
     Write-Report
-    Write-Host "Offline UI passed. Gameplay remains unrecovered. Report: $(Join-Path $run 'offline-validation.json')"
+    Write-Host "Offline UI passed with zero missing scripts. Gameplay remains unrecovered. Report: $(Join-Path $run 'offline-validation.json')"
 } catch {
     $report.status='Failed';$report.error=$_.Exception.Message;Write-Report;throw
 }

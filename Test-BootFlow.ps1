@@ -2,15 +2,17 @@
 <# Validates the existing Unity project only. It does not extract, repair, modify
    scenes, or change Build Settings. The project Editor must be closed. #>
 [CmdletBinding()]
-param([ValidateRange(60,86400)][int]$StageTimeoutSeconds=1200)
+param([ValidateRange(60,86400)][int]$StageTimeoutSeconds=1200, [string]$ValidationId=([guid]::NewGuid().ToString('N')))
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'Tools/RecoveryValidation.ps1')
 $project='C:\Users\ZGAMESVN\Downloads\Soccer-Mobile-Pro'
 $editor='C:\Program Files\Unity\Hub\Editor\2020.3.49f1\Editor\Unity.exe'
 $recovery='C:\Users\ZGAMESVN\Downloads\Soccer-Unity-Recovery'
 $run=Join-Path $recovery ('Runs\BootValidation-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'-'+[guid]::NewGuid().ToString('N').Substring(0,8))
 $utf8=New-Object Text.UTF8Encoding($false)
-$report=[ordered]@{status='Running';project=$project;targetVersion='2020.3.49f1';compilationSucceeded=$false;offlineUiSucceeded=$false;bootFlowSucceeded=$false;lobbyRecovered=$false;gameplayRecovered=$false;originalServicesRecovered=$false;scope='Verified StartGame gates/callbacks with synthetic profile and Editor scene adapter';baselineMissingScripts=1;run=$run}
+$report=[ordered]@{status='Running';project=$project;targetVersion='2020.3.49f1';compilationSucceeded=$false;offlineUiSucceeded=$false;bootFlowSucceeded=$false;lobbyRecovered=$false;gameplayRecovered=$false;originalServicesRecovered=$false;scope='Verified StartGame gates/callbacks with synthetic profile and Editor scene adapter';baselineMissingScripts=0;run=$run}
+$report.validationId=$ValidationId
 function Write-Report { [IO.File]::WriteAllText((Join-Path $run 'boot-validation.json'),(ConvertTo-Json $report -Depth 10),$utf8) }
 function Quote-Arg([string]$value){'"'+[regex]::Replace([regex]::Replace($value,'(\\*)"','$1$1\"'),'(\\+)$','$1$1')+'"'}
 function Run([string]$exe,[string[]]$arguments,[string]$name){
@@ -21,11 +23,8 @@ function Run([string]$exe,[string[]]$arguments,[string]$name){
     finally {$process.Dispose()}
 }
 function Assert-TestResult([string]$path,[int]$expected,[string]$label){
-    if(!(Test-Path -LiteralPath $path)){throw "$label produced no test result XML."}
-    [xml]$xml=Get-Content -LiteralPath $path -Raw
-    $cases=@($xml.SelectNodes('//test-case'))
-    if($cases.Count -ne $expected -or @($cases | Where-Object {$_.result -ne 'Passed'}).Count){throw "$label requires $expected passed PlayMode tests."}
-    return $cases.Count
+    $suite=if($label -eq 'Offline UI'){'Soccer.Recovery.Tests.OfflineUIPlayModeTests'}else{'Soccer.Recovery.Tests.BootFlowPlayModeTests'}
+    Assert-RecoveryTests $path $expected $suite
 }
 foreach($path in @($editor,(Join-Path $project 'Assets\Recovery\Scenes\OfflineUI.unity'),(Join-Path $project 'Assets\Recovery\Scenes\BootLaunch.unity'),(Join-Path $project 'Assets\Recovery\Scenes\BootStart.unity'),(Join-Path $project 'Assets\Recovery\Tests\BootFlow\BootFlowPlayModeTests.cs'))){if(!(Test-Path -LiteralPath $path)){throw "Required boot recovery input missing: $path"}}
 if(@(Get-CimInstance Win32_Process -Filter "Name='Unity.exe'" | Where-Object {$_.CommandLine -and $_.CommandLine.Replace('/','\').IndexOf($project,[StringComparison]::OrdinalIgnoreCase) -ge 0}).Count){throw 'Close this project Editor before validation; it will not be force-closed.'}
@@ -42,11 +41,17 @@ try {
     $report.compilationReport=Join-Path $compileRun 'Reports\recovery.json'
     if(!$compile.validation.compiled -or $compile.targetVersion -ne $report.targetVersion -or $compile.project -ne $project){throw 'Compilation/version validation failed.'}
     $issues=@($compile.validation.items | Where-Object {$_.missingScripts -gt 0 -or $_.error})
-    $unexpected=@($issues | Where-Object {$_.path -ne 'Assets/gamedata/ui/windows/Win_GlobalConfig.prefab' -or $_.missingScripts -ne 1 -or $_.error})
-    if($unexpected.Count -or @($compile.validation.editorErrors).Count){throw 'Asset validation regressed beyond the documented missing-script baseline.'}
+    if($issues.Count -or @($compile.validation.editorErrors).Count){throw 'Asset validation found missing scripts or editor errors; expected zero after the Win_GlobalConfig replacement.'}
     $report.compilationSucceeded=$true;$report.assetIssues=$issues;Write-Report
-    Run $editor @('-batchmode','-projectPath',$project,'-runTests','-testPlatform','PlayMode','-testFilter','Soccer.Recovery.Tests.OfflineUIPlayModeTests','-testResults',(Join-Path $run 'offline-playmode.xml'),'-logFile',(Join-Path $run 'offline-playmode.log')) 'offline-playmode'
+    $previousOffline=$env:SOCCER_OFFLINE_REPORTS
+    try {
+        $env:SOCCER_OFFLINE_REPORTS=$run
+        Run $editor @('-batchmode','-projectPath',$project,'-runTests','-testPlatform','PlayMode','-testFilter','Soccer.Recovery.Tests.OfflineUIPlayModeTests','-testResults',(Join-Path $run 'offline-playmode.xml'),'-logFile',(Join-Path $run 'offline-playmode.log')) 'offline-playmode'
+    } finally {$env:SOCCER_OFFLINE_REPORTS=$previousOffline}
     $report.offlineUiTests=Assert-TestResult (Join-Path $run 'offline-playmode.xml') 4 'Offline UI'
+    $report.offlineUiScreenshots=@('welcome-1920x1080.png','team-1920x1080.png','welcome-2560x1080.png','team-2560x1080.png' | ForEach-Object {
+        $path=Join-Path $run $_; Assert-RecoveryImage $path; $path
+    })
     $previous=[Environment]::GetEnvironmentVariable('SOCCER_BOOT_REPORTS','Process')
     try {
         [Environment]::SetEnvironmentVariable('SOCCER_BOOT_REPORTS',$run,'Process')
@@ -55,6 +60,7 @@ try {
     $report.bootFlowTests=Assert-TestResult (Join-Path $run 'boot-playmode.xml') 12 'Boot flow'
     if(@(Get-ChildItem -LiteralPath $run -Filter '*.events.txt').Count -ne 12){throw 'Per-test boot event traces are incomplete.'}
     foreach($log in @('offline-playmode.log','boot-playmode.log')){if((Get-Content (Join-Path $run $log) -Raw) -match '(?im)(error CS\d+|Scripts have compiler errors|Assembly .* will not be loaded|Fatal Error!|Failed to load assembly|Safe Mode: Only loading)'){throw "PlayMode log contains a compiler, assembly, or crash error: $log"}}
-    $report.offlineUiSucceeded=$true;$report.bootFlowSucceeded=$true;$report.status='PassedWithKnownAssetIssue';Write-Report
-    Write-Host "Boot flow passed. Lobby and gameplay remain unrecovered. Report: $(Join-Path $run 'boot-validation.json')"
+    $report.offlineUiSucceeded=$true;$report.bootFlowSucceeded=$true;$report.status='Passed';Write-Report
+    Write-Host "Boot flow passed. This suite ends at Start; real services and gameplay remain unrecovered."
+    Write-Output "Boot validation report: $(Join-Path $run 'boot-validation.json')"
 } catch {$report.status='Failed';$report.error=$_.Exception.Message;Write-Report;throw}
